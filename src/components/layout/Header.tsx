@@ -1,19 +1,32 @@
-import React, { useState } from 'react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import React, { useState, Fragment } from 'react';
+import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import Button from '../ui/Button';
+import { Popover, Transition, Menu } from '@headlessui/react';
+import { useNavigate } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // 확장 가능한 메뉴 데이터 구조 (서비스 하위메뉴 예시)
   const navigation = [
-    { name: '홈', href: '#home' },
-    { name: '소개', href: '#about' },
-    { name: '서비스', href: '#services' },
-    { name: '경력', href: '#experience' },
-    { name: '고객후기', href: '#testimonials' },
-    { name: '문의', href: '#contact' },
+    { name: '홈', href: '#home', type: 'scroll' },
+    { name: '소개', href: '/about', type: 'route' },
+    {
+      name: '서비스',
+      href: '#services',
+      type: 'scroll',
+      children: [
+        { name: '행정심판', href: '/service/appeal', type: 'route' },
+        { name: '민원대행', href: '/service/civil', type: 'route' },
+        { name: '각종 인허가', href: '/service/license', type: 'route' },
+      ],
+    },
+    { name: '경력', href: '#experience', type: 'scroll' },
+    { name: '고객후기', href: '#testimonials', type: 'scroll' },
+    { name: '문의', href: '#contact', type: 'scroll' },
   ];
 
+  const navigate = useNavigate();
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
@@ -21,8 +34,16 @@ const Header: React.FC = () => {
         behavior: 'smooth',
         block: 'start',
       });
+      setIsMenuOpen(false);
     }
-    setIsMenuOpen(false);
+  };
+  const handleMenuClick = (item: { href: string; type: string }) => {
+    if (item.type === 'route') {
+      navigate(item.href);
+      setIsMenuOpen(false);
+    } else {
+      scrollToSection(item.href);
+    }
   };
 
   return (
@@ -39,18 +60,53 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* 데스크톱 네비게이션 */}
+          {/* 데스크톱 네비게이션 (드롭다운/메가메뉴) */}
           <nav className="hidden md:flex space-x-7">
-            {navigation.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => scrollToSection(item.href)}
-                className="relative text-gray-700 hover:text-primary-700 px-2 py-1 text-base font-semibold transition-colors duration-200 group"
-              >
-                <span>{item.name}</span>
-                <span className="absolute left-0 -bottom-1 w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 transition-all duration-300" />
-              </button>
-            ))}
+            {navigation.map((item) =>
+              item.children ? (
+                <Menu as="div" className="relative" key={item.name}>
+                  <Menu.Button className="flex items-center gap-1 text-gray-700 hover:text-primary-700 px-2 py-1 text-base font-semibold transition-colors duration-200 group focus:outline-none">
+                    <span>{item.name}</span>
+                    <ChevronDownIcon className="w-4 h-4 text-primary-500 group-hover:rotate-180 transition-transform duration-200" />
+                  </Menu.Button>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-150"
+                    enterFrom="opacity-0 translate-y-2"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-2"
+                  >
+                    <Menu.Items className="absolute left-0 mt-2 w-48 origin-top-left bg-white/95 border border-white/30 rounded-xl shadow-xl ring-1 ring-black/5 focus:outline-none z-50">
+                      <div className="py-2">
+                        {item.children.map((child) => (
+                          <Menu.Item key={child.name}>
+                            {({ active }) => (
+                              <button
+                                onClick={() => handleMenuClick(child)}
+                                className={`w-full text-left px-4 py-2 text-gray-700 hover:text-primary-700 font-medium transition-colors duration-150 ${active ? 'bg-primary-50' : ''}`}
+                              >
+                                {child.name}
+                              </button>
+                            )}
+                          </Menu.Item>
+                        ))}
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              ) : (
+                <button
+                  key={item.name}
+                  onClick={() => handleMenuClick(item)}
+                  className="relative text-gray-700 hover:text-primary-700 px-2 py-1 text-base font-semibold transition-colors duration-200 group"
+                >
+                  <span>{item.name}</span>
+                  <span className="absolute left-0 -bottom-1 w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 transition-all duration-300" />
+                </button>
+              )
+            )}
           </nav>
 
           {/* 상담 문의 버튼 */}
@@ -81,19 +137,53 @@ const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* 모바일 메뉴 */}
+        {/* 모바일 메뉴 (드롭다운 포함) */}
         {isMenuOpen && (
           <div className="md:hidden animate-fade-in-down">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 border-t border-white/30 shadow-xl rounded-b-2xl">
-              {navigation.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-gray-700 hover:text-primary-700 block px-3 py-2 text-lg font-semibold w-full text-left transition-colors duration-200"
-                >
-                  {item.name}
-                </button>
-              ))}
+              {navigation.map((item) =>
+                item.children ? (
+                  <Popover key={item.name} className="block">
+                    {({ open }) => (
+                      <>
+                        <Popover.Button className="flex items-center w-full px-3 py-2 text-lg font-semibold text-gray-700 hover:text-primary-700 transition-colors duration-200">
+                          <span>{item.name}</span>
+                          <ChevronDownIcon className={`w-4 h-4 ml-1 transition-transform duration-200 ${open ? 'rotate-180 text-primary-500' : 'text-primary-400'}`} />
+                        </Popover.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-150"
+                          enterFrom="opacity-0 -translate-y-2"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 -translate-y-2"
+                        >
+                          <Popover.Panel className="pl-6 py-1">
+                            {item.children.map((child) => (
+                              <button
+                                key={child.name}
+                                onClick={() => handleMenuClick(child)}
+                                className="block w-full text-left px-2 py-1 text-base text-gray-600 hover:text-primary-700 font-medium transition-colors duration-150"
+                              >
+                                {child.name}
+                              </button>
+                            ))}
+                          </Popover.Panel>
+                        </Transition>
+                      </>
+                    )}
+                  </Popover>
+                ) : (
+                  <button
+                    key={item.name}
+                    onClick={() => handleMenuClick(item)}
+                    className="text-gray-700 hover:text-primary-700 block px-3 py-2 text-lg font-semibold w-full text-left transition-colors duration-200"
+                  >
+                    {item.name}
+                  </button>
+                )
+              )}
               <div className="px-3 py-2">
                 <Button
                   onClick={() => scrollToSection('#contact')}
