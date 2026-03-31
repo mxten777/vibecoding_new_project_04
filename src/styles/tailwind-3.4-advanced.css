@@ -1,0 +1,109 @@
+/* Tailwind CSS 3.4.0+ 고급 CSS 변수 및 커스텀 스타일 */
+
+/* CSS 변수를 통한 다이나믹 테마 */
+:root {
+  /* 브랜드 컬러 CSS 변수 */
+  --color-brand-primary: 59 130 246; /* rgb(59, 130, 246) */
+  --color-brand-secondary: 100 116 139; /* rgb(100, 116, 139) */
+  --color-brand-accent: 14 165 233; /* rgb(14, 165, 233) */
+  
+  /* 그라데이션 변수 */
+  --gradient-primary: linear-gradient(135deg, rgb(var(--color-brand-primary)) 0%, rgb(var(--color-brand-accent)) 100%);
+  --gradient-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  
+  /* 새로운 그림자 변수 */
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --shadow-glass-inset: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  
+  /* 블러 효과 변수 */
+  --backdrop-blur: blur(40px);
+  --backdrop-saturate: saturate(180%);
+}
+
+/* 다크모드 지원을 위한 CSS 변수 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-brand-primary: 96 165 250; /* 밝은 파랑 */
+    --color-brand-secondary: 148 163 184; /* 밝은 회색 */
+    --color-brand-accent: 56 189 248; /* 밝은 하늘색 */
+  }
+}
+
+/* Tailwind CSS 3.4.0+ 새로운 유틸리티 클래스들 */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-glass), var(--shadow-glass-inset);
+}
+
+.glass-morphism-dark {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-glass), var(--shadow-glass-inset);
+}
+
+/* 새로운 그라데이션 클래스 */
+.gradient-brand {
+  background: var(--gradient-primary);
+}
+
+.gradient-text-brand {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Container Queries 준비 (3.4.0+에서 지원) */
+@container (min-width: 640px) {
+  .container-sm\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
+
+/* 새로운 애니메이션 유틸리티 */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out;
+}
+
+/* 고급 호버 효과 (3.4.0+ hoverOnlyWhenSupported) */
+@media (hover: hover) {
+  .hover-lift {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* 접근성 향상을 위한 스타일 */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-slide-up,
+  .animate-slide-in-right,
+  .animate-bounce-slow,
+  .animate-pulse-slow,
+  .animate-spin-slow {
+    animation: none;
+  }
+}
+
+/* 고해상도 디스플레이 최적화 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .text-crisp {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

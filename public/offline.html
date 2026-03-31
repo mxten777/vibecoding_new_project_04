@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오프라인 - 행정사 전문 법무 서비스</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .offline-container {
+            text-align: center;
+            max-width: 500px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .offline-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        
+        .offline-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .offline-description {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .offline-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+        
+        .btn-primary:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+        
+        .offline-features {
+            margin-top: 40px;
+            text-align: left;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .feature-text {
+            flex: 1;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .feature-desc {
+            opacity: 0.8;
+            font-size: 14px;
+        }
+        
+        .retry-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #2563eb;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .retry-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .offline-container {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+            
+            .offline-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">
+            📡
+        </div>
+        
+        <h1 class="offline-title">오프라인 상태</h1>
+        
+        <p class="offline-description">
+            현재 인터넷 연결이 불안정합니다.<br>
+            연결이 복구되면 자동으로 최신 내용을 불러옵니다.
+        </p>
+        
+        <div class="offline-actions">
+            <button class="btn btn-primary" onclick="window.location.reload()">
+                다시 시도
+            </button>
+            <a href="tel:+82-2-1234-5678" class="btn btn-secondary">
+                전화 상담
+            </a>
+        </div>
+        
+        <div class="offline-features">
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-text">
+                    <div class="feature-title">빠른 연결</div>
+                    <div class="feature-desc">네트워크가 복구되면 자동으로 최신 정보를 동기화합니다</div>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">📞</div>
+                <div class="feature-text">
+                    <div class="feature-title">긴급 상담</div>
+                    <div class="feature-desc">인터넷 없이도 전화로 즉시 상담받으실 수 있습니다</div>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">💾</div>
+                <div class="feature-text">
+                    <div class="feature-title">데이터 보존</div>
+                    <div class="feature-desc">작성하신 정보는 안전하게 보관되며 연결 시 전송됩니다</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="retry-btn" onclick="window.location.reload()" title="다시 시도">
+        🔄
+    </button>
+    
+    <script>
+        // 온라인 상태 감지 및 자동 새로고침
+        let retryCount = 0;
+        const maxRetries = 5;
+        
+        function checkConnection() {
+            if (navigator.onLine) {
+                // 연결이 복구되면 페이지 새로고침
+                window.location.reload();
+            } else if (retryCount < maxRetries) {
+                // 3초 후 다시 확인
+                retryCount++;
+                setTimeout(checkConnection, 3000);
+            }
+        }
+        
+        // 온라인 이벤트 리스너
+        window.addEventListener('online', function() {
+            window.location.reload();
+        });
+        
+        // 주기적으로 연결 상태 확인
+        checkConnection();
+        
+        // 서비스 워커와 통신
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(function(registration) {
+                // 서비스 워커에게 네트워크 상태 확인 요청
+                registration.active.postMessage({
+                    type: 'CHECK_NETWORK'
+                });
+            });
+            
+            // 서비스 워커로부터 메시지 수신
+            navigator.serviceWorker.addEventListener('message', function(event) {
+                if (event.data && event.data.type === 'NETWORK_RESTORED') {
+                    window.location.reload();
+                }
+            });
+        }
+        
+        // 페이지 가시성 변경 시 연결 상태 재확인
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden && navigator.onLine) {
+                checkConnection();
+            }
+        });
+        
+        console.log('오프라인 페이지 로드됨');
+    </script>
+</body>
+</html>
