@@ -3,7 +3,7 @@
 경기도 남양주시 부시장 출신, 26년 고위공무원 경력의 박신환 행정사 공식 홈페이지.
 
 ## 기술 스택
-
+zQC0K7sLjhQ9lcdL#####
 - **React** 19.1.0 + TypeScript
 - **Vite** 7.3.1
 - **Tailwind CSS** 3.4

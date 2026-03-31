@@ -11,11 +11,17 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Pretendard', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* fixed header offset */
 }
 
 body {
@@ -23,6 +29,7 @@ body {
   min-height: 100vh;
   background-color: #ffffff;
   color: #1f2937;
+  overflow-x: hidden;
 }
 
 /* 커스텀 컴포넌트 스타일 */

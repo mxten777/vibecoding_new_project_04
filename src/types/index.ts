@@ -37,13 +37,6 @@ export interface Certification {
   credentialId?: string;
 }
 
-export interface NotionData {
-  services: AdminServices[];
-  experiences: Experience[];
-  certifications: Certification[];
-  testimonials: Testimonial[];
-}
-
 export interface Testimonial {
   id: string;
   name: string;
@@ -53,20 +46,30 @@ export interface Testimonial {
   date: string;
 }
 
-export interface GoogleFormData {
+// Supabase 테이블 행 타입 (src/types/supabase.ts의 Row 타입 재노출)
+export type { Database } from './supabase';
+
+export interface Notice {
+  id: string;
+  title: string;
+  content: string;
+  published_at: string;
+  is_active: boolean;
+}
+
+export interface Faq {
+  id: string;
+  question: string;
+  answer: string;
+  display_order: number;
+  is_active: boolean;
+}
+
+export interface Inquiry {
   name: string;
   email: string;
   phone: string;
-  subject: string;
+  service: string;
   message: string;
-  serviceType: string;
 }
 
-export interface FirebaseConfig {
-  apiKey: string;
-  authDomain: string;
-  projectId: string;
-  storageBucket: string;
-  messagingSenderId: string;
-  appId: string;
-}

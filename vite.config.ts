@@ -13,20 +13,17 @@ export default defineConfig({
       '@/utils': resolve(__dirname, './src/utils'),
       '@/services': resolve(__dirname, './src/services'),
       '@/types': resolve(__dirname, './src/types'),
-      '@/lib': resolve(__dirname, './src/lib'),
     }
   },
   build: {
     // 청크 크기 경고 제한 증가
-    chunkSizeWarningLimit: 1600,
     rollupOptions: {
       output: {
-        // 코드 스플리팅 최적화
         manualChunks: {
           vendor: ['react', 'react-dom'],
           animations: ['framer-motion'],
-          icons: ['@heroicons/react'],
           ui: ['@headlessui/react'],
+          supabase: ['@supabase/supabase-js'],
         },
       },
     },
@@ -63,6 +60,7 @@ export default defineConfig({
       '@heroicons/react/24/outline',
       '@heroicons/react/24/solid',
       '@headlessui/react',
+      '@supabase/supabase-js',
     ],
     exclude: [
       'chart.js',

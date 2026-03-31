@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
 interface ContactFormData {
   name: string;
@@ -81,6 +82,21 @@ export const useContactForm = () => {
         // DEV MODE: API 키 없을 때 콘솔 출력만
         console.info('[DEV] 문의 제출 (Web3Forms 키 없음):', formData);
         await new Promise((res) => setTimeout(res, 800));
+      }
+
+      // Supabase에 문의 내용 저장 (설정된 경우) — Web3Forms 성공 여부와 독립적으로 동작
+      if (isSupabaseConfigured) {
+        const { error: dbError } = await supabase.from('inquiries').insert({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+        });
+        if (dbError) {
+          // DB 저장 실패는 사용자에게 노출하지 않음 (이메일은 이미 전송됨)
+          console.error('[Supabase] 문의 저장 오류:', dbError.message);
+        }
       }
 
       setIsSubmitted(true);
